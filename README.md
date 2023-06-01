@@ -1,16 +1,16 @@
-# brew-install-specific
+# brew-install-version
 
 Install specific versions of brew packages.
 
 ## Installation
 
-Download the latest release from [here](https://github.com/divs1210/brew-install-specific/releases) and put it on your `$PATH`.
+Download the latest release from [here](https://github.com/LaurentFough/brew-install-version/releases) and put it on your `$PATH`.
 
 ## Usage
 
 To find a package `pkg` with version `a.b.c`, run:
 ```
-$ brew-install-specific pkg@a.b.c
+$ brew-install-version pkg@a.b.c
 ```
 This will list commits on the `pkg` homebrew formula that mention the given version along with their GitHub urls.
 ```
