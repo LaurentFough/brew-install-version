@@ -1,6 +1,6 @@
-(ns brew-install-specific.core-test
+(ns brew-install-version.core-test
   (:require [clojure.test :refer :all]
-            [brew-install-specific.core :refer :all]))
+            [brew-install-version.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."
