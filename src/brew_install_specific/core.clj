@@ -1,12 +1,16 @@
-(ns brew-install-specific.core
+(ns brew-install-version.core
   (:gen-class)
   (:require [clojure.string :as str]
             [clansi :refer [style]]
             [clj-jgit.porcelain :as git])
   (:import [java.net URI]))
 
-(defonce homebrew-repo-path
-  "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/")
+(let [system-arch (if (contains? (System/getProperties) "os.arch")
+                    (System/getProperty "os.arch")
+                    "unknown")]
+  (defonce homebrew-repo-path (if (= system-arch "x86_64")
+                        "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/"
+                        "/opt/homebrew/Library/Homebrew/")))
 
 (defonce commit-url*
   "https://github.com/Homebrew/homebrew-core/commit/%s")
@@ -21,7 +25,7 @@
      (uncaughtException [_ _ ex]
        (println (style (.getMessage ex) :red)))))
   (if-not (string? package-at-version)
-    (println "Usage: brew-install-specific package@version")
+    (println "Usage: brew-install-version package@version")
     (let [[package version] (->> package-at-version
                                  (partition-by #(= \@ %))
                                  ((fn [[p _ v]]
@@ -29,7 +33,7 @@
                                  (map str/join))]
       (if-not (and (seq package)
                    (seq version))
-        (println "Usage: brew-install-specific package@version")
+        (println "Usage: brew-install-version package@version")
         (let [repo (git/load-repo homebrew-repo-path)
               matching-commits (->> (git/git-log repo)
                                     (filter #(and (str/includes? (:msg %) package)
